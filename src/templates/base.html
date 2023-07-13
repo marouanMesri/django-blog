@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    {% block title %}
+    <title>Accueil du blog</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Mon super blog</h1>
+      <nav>
+        <ul>
+          <li><a href="{% url 'posts:home' %}">Accueil</a></li>
+          {% if request.user.is_authenticated %}
+          <li><a href="{% url 'posts:create' %}">Create</a></li>
+
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+    <section id="blog">{% block content %} {% endblock %}</section>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+
+{% block title %}
+<title>Accueil du blog</title>
+{% endblock %} 
+
+{% block content %}
+
+<h1>Le blog de minpex</h1>
+
+{% for post in posts %}
+
+<article>
+  <h2>
+    {{ post.title }}
+  </h2>
+  {% if request.user.is_authenticated %}
+  <div>
+  <a href="{% url 'posts:edit' slug=post.slug  %}">Modifier</a>
+  <a href="{% url 'posts:delete' slug=post.slug %}">Supprimer</a>
+  </div>
+  {% endif %}
+
+  <div> 
+  <p>{{ post.content|safe|truncatewords:50 }}</p>
+  <p>{{ post.author_name }}</p>
+  <p>{{ post.created_at|date:"j F Y" }}</p>
+
+  <form action={% url 'posts:post' slug=post.slug %} > 
+    <input type="hidden" name="slug" value="{{ post.slug }}">
+    <input type="submit" value="Lire la suite">
+  </form>
+</article>
+{% endfor %} 
+
+{% endblock %}
